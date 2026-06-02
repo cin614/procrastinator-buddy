@@ -1,20 +1,135 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount } from "svelte";
 
   let tasks = $state([]);
   let completedTasks = $state(0);
   let openTasks = $state(0);
   let xp = $state(0);
+  let focusSessions = $state([]);
+  let totalFocusTime = $state(0);
+  let focusSessionCount = $state(0);
 
-  async function loadStats() {
-    const response = await fetch('/api/tasks');
-    tasks = await response.json();
+  function getLevel() {
+    if (xp >= 1000)
+      return {
+        level: 4,
+        title: "Procrastination Master",
+      };
 
-    completedTasks = tasks.filter(task => task.completed).length;
-    openTasks = tasks.filter(task => !task.completed).length;
-    xp = completedTasks * 30;
+    if (xp >= 600)
+      return {
+        level: 3,
+        title: "Task Slayer",
+      };
+
+    if (xp >= 300)
+      return {
+        level: 2,
+        title: "Productivity Warrior",
+      };
+
+    return {
+      level: 1,
+      title: "Focus Hero",
+    };
+  }
+  function getLevelProgress() {
+    if (xp >= 1000) {
+      return {
+        current: xp - 1000,
+        needed: 500,
+      };
+    }
+
+    if (xp >= 600) {
+      return {
+        current: xp - 600,
+        needed: 400,
+      };
+    }
+
+    if (xp >= 300) {
+      return {
+        current: xp - 300,
+        needed: 300,
+      };
+    }
+
+    return {
+      current: xp,
+      needed: 300,
+    };
   }
 
+  function getBadges() {
+    return [
+      {
+        icon: "🌱",
+        title: "First Step",
+        description: "First task completed",
+        unlocked: completedTasks >= 1,
+      },
+      {
+        icon: "🚀",
+        title: "Task Starter",
+        description: "5 tasks completed",
+        unlocked: completedTasks >= 5,
+      },
+      {
+        icon: "💎",
+        title: "100 XP",
+        description: "Reached 100 XP",
+        unlocked: xp >= 100,
+      },
+      {
+        icon: "🏆",
+        title: "Productivity Warrior",
+        description: "Reached Level 2",
+        unlocked: getLevel().level >= 2,
+      },
+    ];
+  }
+
+  function calculateXp(tasks) {
+    return tasks
+      .filter((task) => task.completed)
+      .reduce((total, task) => {
+        if (task.priority === "High") return total + 50;
+        if (task.priority === "Medium") return total + 30;
+        if (task.priority === "Low") return total + 10;
+
+        return total;
+      }, 0);
+  }
+
+  async function loadStats() {
+    const response = await fetch("/api/tasks");
+    tasks = await response.json();
+
+    completedTasks = tasks.filter((task) => task.completed).length;
+    openTasks = tasks.filter((task) => !task.completed).length;
+    xp = calculateXp(tasks);
+    
+    const focusResponse = await fetch("/api/focus-sessions");
+    focusSessions = await focusResponse.json();
+
+    focusSessionCount = focusSessions.length;
+    totalFocusTime = focusSessions.reduce(
+      (total, session) => total + session.durationSeconds,
+      0,
+    );
+ 
+  }
+   function formatFocusTime(seconds) {
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+
+      if (hours > 0) {
+        return `${hours}h ${minutes}m`;
+      }
+
+      return `${minutes} min`;
+    }
   onMount(() => {
     loadStats();
   });
@@ -23,17 +138,19 @@
 <h1>Profile</h1>
 
 <div class="profile-card">
-  <h2>Focus Hero</h2>
-  <p>Level 1</p>
+  <h2>{getLevel().title}</h2>
+  <p>Level {getLevel().level}</p>
 
   <div class="xp-bar">
     <div
       class="xp-fill"
-      style={`width: ${Math.min(xp, 300) / 3}%`}
+      style={`width: ${(getLevelProgress().current / getLevelProgress().needed) * 100}%`}
     ></div>
   </div>
 
-  <small>{xp} / 300 XP</small>
+  <small>
+    {getLevelProgress().current} / {getLevelProgress().needed} XP
+  </small>
 </div>
 
 <div class="stats-grid">
@@ -48,7 +165,7 @@
   </div>
 
   <div class="stat-card">
-    <h3>25 min</h3>
+    <h3>{formatFocusTime(totalFocusTime)}</h3>
     <p>Focus Time</p>
   </div>
 
@@ -56,4 +173,19 @@
     <h3>3</h3>
     <p>Streak</p>
   </div>
+  <div class="stat-card">
+    <h3>{focusSessionCount}</h3>
+    <p>Focus Sessions</p>
+  </div>
+</div>
+<h2>Badges</h2>
+
+<div class="badges-grid">
+  {#each getBadges() as badge}
+    <div class:locked={!badge.unlocked} class="badge-card">
+      <span>{badge.icon}</span>
+      <h3>{badge.title}</h3>
+      <p>{badge.description}</p>
+    </div>
+  {/each}
 </div>

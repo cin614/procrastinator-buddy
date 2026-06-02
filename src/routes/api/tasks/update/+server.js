@@ -7,9 +7,10 @@ export async function POST({ request }) {
 
   await db.collection('tasks').updateOne(
     { _id: new ObjectId(task._id) },
-
     {
       $set: {
+        title: task.title,
+        priority: task.priority,
         completed: task.completed
       }
     }

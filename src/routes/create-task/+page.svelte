@@ -1,27 +1,30 @@
 <script>
-  let title = $state('');
-  let priority = $state('Medium');
+  let title = $state("");
+  let priority = $state("Medium");
+  let deadline = $state("");
 
   async function createTask() {
-    const response = await fetch('/api/tasks', {
-      method: 'POST',
+    const response = await fetch("/api/tasks", {
+      method: "POST",
 
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
 
       body: JSON.stringify({
         title,
         priority,
-        completed: false
-      })
+        deadline,
+        completed: false,
+      }),
     });
 
     if (response.ok) {
-      alert('Task created successfully!');
+      alert("Task created successfully!");
 
-      title = '';
-      priority = 'Medium';
+      title = "";
+      deadline = "";
+      priority = "Medium";
     }
   }
 </script>
@@ -49,6 +52,10 @@
   </select>
 </div>
 
-<button onclick={createTask}>
-  Create Task
-</button>
+<div class="form-group">
+  <label for="task-deadline">Deadline</label>
+
+  <input id="task-deadline" type="date" bind:value={deadline} />
+</div>
+
+<button onclick={createTask}> Create Task </button>
