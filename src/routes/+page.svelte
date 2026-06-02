@@ -92,11 +92,23 @@
         if (!a.deadline) return 1;
         if (!b.deadline) return -1;
 
-        return new Date(a.deadline) - new Date(b.deadline);
+        return a.deadline.localeCompare(b.deadline);
       });
     }
 
     return visibleTasks;
+  }
+
+  function formatDeadline(dateString) {
+    if (!dateString) return "";
+
+    const date = new Date(dateString);
+
+    return date.toLocaleDateString("de-CH", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
   }
 
   async function loadTasks() {
@@ -176,10 +188,18 @@
   }
 </script>
 
-<h1>Procrastinator Buddy</h1>
+<h1 class="home-title">Procrastinator Buddy</h1>
+
+<div class="welcome-box">
+  <h2>🌸 Welcome back!</h2>
+  <p>✨ Let’s make a little progress today.</p>
+  <small>
+    You have {getVisibleTasks(false).length} open tasks.
+  </small>
+</div>
 
 {#if showCompleteAnimation}
-  <div class="complete-animation">🎉 Task completed!</div>
+  <div class="complete-animation">✨ Amazing! Task completed ✨</div>
 {/if}
 
 <div class="xp-box">
@@ -223,7 +243,10 @@
   </div>
 </div>
 
-<h2>Open Tasks</h2>
+<h2>🌸 Open Tasks</h2>
+{#if getVisibleTasks(false).length === 0}
+  <div class="empty-state">✨ No open tasks. You’re doing amazing!</div>
+{/if}
 
 {#each getVisibleTasks(false) as task}
   <div class="task-card">
@@ -243,7 +266,7 @@
 
         {#if task.deadline}
           <small class="deadline">
-            Deadline: {task.deadline}
+            📅 Due: {formatDeadline(task.deadline)}
           </small>
         {/if}
       </div>
@@ -278,7 +301,13 @@
   {/if}
 {/each}
 
-<h2>Completed</h2>
+<h2>✅ Completed</h2>
+
+{#if getVisibleTasks(true).length === 0}
+  <div class="empty-state">
+    🌱 No completed tasks yet. Start with one small step!
+  </div>
+{/if}
 
 {#each getVisibleTasks(true) as task}
   <div class="task-card completed">

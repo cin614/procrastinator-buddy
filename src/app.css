@@ -1,8 +1,8 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f4f4f7;
-  color: #222;
+  background: linear-gradient(180deg, #fff7fb, #f3e8ff);
+  color: #3b2a3f;
 }
 
 .app {
@@ -10,7 +10,7 @@ body {
   min-height: 100vh;
   margin: 0 auto;
   padding: 24px 20px 90px;
-  background: white;
+  background: #fffafd;
 }
 
 .bottom-nav {
@@ -36,6 +36,7 @@ body {
 .bottom-nav a:hover {
   color: #6c3df4;
 }
+
 .task-card {
   display: flex;
   align-items: center;
@@ -48,7 +49,7 @@ body {
   padding: 18px;
   margin-bottom: 14px;
 
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .task-card-left {
@@ -78,6 +79,7 @@ h2 {
   margin-top: 32px;
   font-size: 18px;
 }
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -114,6 +116,7 @@ button {
 button:hover {
   opacity: 0.9;
 }
+
 .delete-btn {
   width: auto;
 
@@ -131,6 +134,7 @@ button:hover {
 .delete-btn:hover {
   opacity: 0.9;
 }
+
 .timer-circle {
   width: 200px;
   height: 200px;
@@ -172,6 +176,7 @@ button:hover {
 .timer-buttons button {
   flex: 1;
 }
+
 .xp-box {
   margin-bottom: 32px;
 }
@@ -196,12 +201,13 @@ button:hover {
 
   border-radius: 999px;
 }
+
 .profile-card {
   background: white;
   border-radius: 18px;
   padding: 22px;
   margin-bottom: 28px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .profile-card h2 {
@@ -223,7 +229,7 @@ button:hover {
   border-radius: 16px;
   padding: 20px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .stat-card h3 {
@@ -236,6 +242,7 @@ button:hover {
   margin-bottom: 0;
   color: #666;
 }
+
 .priority {
   display: inline-block;
   margin-top: 4px;
@@ -259,6 +266,7 @@ button:hover {
   background: #ddf8df;
   color: #1c7c32;
 }
+
 .task-actions {
   display: flex;
   gap: 8px;
@@ -290,6 +298,7 @@ button:hover {
 .cancel-btn {
   background: #777;
 }
+
 .success-message {
   background: #ddf8df;
   color: #1c7c32;
@@ -298,6 +307,7 @@ button:hover {
   margin-top: 20px;
   font-weight: 600;
 }
+
 .focus-info {
   background: #f1ecff;
   color: #4b25b8;
@@ -306,6 +316,7 @@ button:hover {
   margin-top: 18px;
   font-weight: 600;
 }
+
 .badges-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -317,7 +328,7 @@ button:hover {
   border-radius: 16px;
   padding: 18px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .badge-card span {
@@ -339,6 +350,7 @@ button:hover {
   opacity: 0.35;
   filter: grayscale(1);
 }
+
 .theme-toggle {
   width: auto;
   margin-bottom: 20px;
@@ -391,12 +403,14 @@ body.dark-mode .edit-form {
 body.dark-mode .xp-bar {
   background: #444;
 }
+
 .deadline {
   display: block;
   margin-top: 6px;
   color: #777;
   font-size: 13px;
 }
+
 .complete-animation {
   position: fixed;
   top: 50%;
@@ -436,14 +450,163 @@ body.dark-mode .xp-bar {
     transform: translate(-50%, -50%) scale(0.9);
   }
 }
+
 .filter-box {
   background: white;
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 28px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 body.dark-mode .filter-box {
   background: #252525;
+}
+
+
+/* Girly Soft Theme */
+body {
+  background: linear-gradient(180deg, #fff7fb, #f3e8ff);
+  color: #3b2a3f;
+}
+
+.app {
+  background: #fffafd;
+}
+
+button {
+  background: linear-gradient(90deg, #ffb6c1, #d8b4fe);
+  color: white;
+  border-radius: 999px;
+}
+
+.task-card,
+.profile-card,
+.stat-card,
+.badge-card,
+.filter-box,
+.edit-form {
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(216, 180, 254, 0.25);
+}
+
+.xp-fill {
+  background: linear-gradient(90deg, #ffb6c1, #d8b4fe);
+}
+
+.bottom-nav {
+  background: #fffafd;
+  border-top: 1px solid #f3d1e8;
+}
+
+.bottom-nav a {
+  color: #9b5de5;
+  font-weight: 600;
+}
+
+.priority.high {
+  background: #ffe1ec;
+  color: #d63384;
+}
+
+.priority.medium {
+  background: #fff1cc;
+  color: #b7791f;
+}
+
+.priority.low {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.complete-animation {
+  background: linear-gradient(90deg, #ffb6c1, #d8b4fe);
+}
+
+/* Girly Soft Theme */
+
+.home-title {
+  text-align: center;
+}
+.empty-state {
+  background: #fffafd;
+  border: 2px dashed #f3d1e8;
+  color: #9b5de5;
+  border-radius: 24px;
+  padding: 22px;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 18px;
+  box-shadow: 0 6px 18px rgba(216, 180, 254, 0.18);
+}
+.profile-card {
+  text-align: center;
+}
+
+.profile-avatar {
+  width: 86px;
+  height: 86px;
+  margin: 0 auto 16px;
+
+  background: linear-gradient(135deg, #ffb6c1, #d8b4fe);
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 42px;
+
+  box-shadow: 0 8px 22px rgba(216, 180, 254, 0.35);
+}
+
+.profile-card h2 {
+  margin: 8px 0 4px;
+}
+
+.profile-card p {
+  margin-top: 0;
+  color: #9b5de5;
+  font-weight: 600;
+}
+.bottom-nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+}
+
+.bottom-nav a span {
+  font-size: 22px;
+}
+
+.bottom-nav a small {
+  font-size: 12px;
+  font-weight: 600;
+}
+.welcome-box {
+  background: linear-gradient(135deg, #fff0f6, #f3e8ff);
+  border-radius: 26px;
+  padding: 22px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 24px rgba(216, 180, 254, 0.28);
+  text-align: center;
+}
+
+.welcome-box h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+.welcome-box p {
+  margin: 0 0 8px;
+  color: #9b5de5;
+  font-weight: 600;
+}
+
+.welcome-box small {
+  color: #7c3aed;
+  font-weight: 600;
 }

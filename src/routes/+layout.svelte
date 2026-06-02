@@ -17,15 +17,30 @@
 
 <main class="app">
   <button class="theme-toggle" onclick={toggleTheme}>
-    {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
+    {darkMode ? '☀️' : '🌙'}
   </button>
 
   {@render children()}
 </main>
 
 <nav class="bottom-nav">
-  <a href="/">Home</a>
-  <a href="/create-task">Create</a>
-  <a href="/focus">Focus</a>
-  <a href="/profile">Profile</a>
+  <a href="/">
+    <span>🏠</span>
+    <small>Home</small>
+  </a>
+
+  <a href="/create-task">
+    <span>➕</span>
+    <small>Task</small>
+  </a>
+
+  <a href="/focus">
+    <span>🎯</span>
+    <small>Focus</small>
+  </a>
+
+  <a href="/profile">
+    <span>👑</span>
+    <small>Profile</small>
+  </a>
 </nav>

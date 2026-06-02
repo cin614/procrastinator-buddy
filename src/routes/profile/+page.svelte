@@ -138,8 +138,10 @@
 <h1>Profile</h1>
 
 <div class="profile-card">
-  <h2>{getLevel().title}</h2>
-  <p>Level {getLevel().level}</p>
+  <div class="profile-avatar">👑</div>
+
+<h2>{getLevel().title}</h2>
+<p>Level {getLevel().level}</p>
 
   <div class="xp-bar">
     <div

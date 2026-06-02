@@ -11,6 +11,7 @@ export async function POST({ request }) {
       $set: {
         title: task.title,
         priority: task.priority,
+        deadline: task.deadline,
         completed: task.completed
       }
     }
