@@ -39,6 +39,16 @@
     <small>Focus</small>
   </a>
 
+  <a href="/challenges">
+  <span>🏆</span>
+  <small>Challenges</small>
+</a>
+
+  <a href="/buddy">
+  <span>👤</span>
+  <small>Buddy</small>
+</a>
+
   <a href="/profile">
     <span>👑</span>
     <small>Profile</small>

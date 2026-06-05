@@ -16,6 +16,7 @@
         priority,
         deadline,
         completed: false,
+        focusSeconds: 0,
       }),
     });
 

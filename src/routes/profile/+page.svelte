@@ -8,6 +8,11 @@
   let focusSessions = $state([]);
   let totalFocusTime = $state(0);
   let focusSessionCount = $state(0);
+  let buddies = $state([]);
+  let buddyCount = $state(0);
+  let challenges = $state([]);
+  let challengeWins = $state(0);
+  let challengeLosses = $state(0);
 
   function getLevel() {
     if (xp >= 1000)
@@ -70,7 +75,7 @@
         unlocked: completedTasks >= 1,
       },
       {
-        icon: "🚀",
+        icon: "✅",
         title: "Task Starter",
         description: "5 tasks completed",
         unlocked: completedTasks >= 5,
@@ -82,11 +87,23 @@
         unlocked: xp >= 100,
       },
       {
-        icon: "🏆",
-        title: "Productivity Warrior",
+        icon: "🚀",
+        title: "Level Up",
         description: "Reached Level 2",
         unlocked: getLevel().level >= 2,
       },
+        {
+      icon: "⏰",
+      title: "Focus Lover",
+      description: "5 focus sessions completed",
+      unlocked: focusSessionCount >= 5,
+        },
+        {
+      icon: "🏆",
+      title: "Winner Energy",
+      description: "Won first challenge",
+      unlocked: challengeWins >= 1,
+    },
     ];
   }
 
@@ -109,7 +126,7 @@
     completedTasks = tasks.filter((task) => task.completed).length;
     openTasks = tasks.filter((task) => !task.completed).length;
     xp = calculateXp(tasks);
-    
+
     const focusResponse = await fetch("/api/focus-sessions");
     focusSessions = await focusResponse.json();
 
@@ -118,18 +135,34 @@
       (total, session) => total + session.durationSeconds,
       0,
     );
- 
+
+    const buddyResponse = await fetch("/api/buddies");
+    buddies = await buddyResponse.json();
+
+    buddyCount = buddies.length;
+
+    const challengeResponse = await fetch("/api/challenges");
+    challenges = await challengeResponse.json();
+
+    challengeWins = challenges.filter(
+      (challenge) => challenge.status === "won",
+    ).length;
+
+    challengeLosses = challenges.filter(
+      (challenge) => challenge.status === "lost",
+    ).length;
   }
-   function formatFocusTime(seconds) {
-      const hours = Math.floor(seconds / 3600);
-      const minutes = Math.floor((seconds % 3600) / 60);
 
-      if (hours > 0) {
-        return `${hours}h ${minutes}m`;
-      }
+  function formatFocusTime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
 
-      return `${minutes} min`;
+    if (hours > 0) {
+      return `${hours}h ${minutes}m`;
     }
+
+    return `${minutes} min`;
+  }
   onMount(() => {
     loadStats();
   });
@@ -140,8 +173,8 @@
 <div class="profile-card">
   <div class="profile-avatar">👑</div>
 
-<h2>{getLevel().title}</h2>
-<p>Level {getLevel().level}</p>
+  <h2>{getLevel().title}</h2>
+  <p>Level {getLevel().level}</p>
 
   <div class="xp-bar">
     <div
@@ -156,14 +189,19 @@
 </div>
 
 <div class="stats-grid">
+    <div class="stat-card">
+    <h3>{openTasks}</h3>
+    <p>Open Tasks</p>
+  </div>
+  
   <div class="stat-card">
     <h3>{completedTasks}</h3>
     <p>Completed Tasks</p>
   </div>
 
-  <div class="stat-card">
-    <h3>{openTasks}</h3>
-    <p>Open Tasks</p>
+   <div class="stat-card">
+    <h3>{focusSessionCount}</h3>
+    <p>Focus Sessions</p>
   </div>
 
   <div class="stat-card">
@@ -172,12 +210,18 @@
   </div>
 
   <div class="stat-card">
-    <h3>3</h3>
-    <p>Streak</p>
-  </div>
-  <div class="stat-card">
-    <h3>{focusSessionCount}</h3>
-    <p>Focus Sessions</p>
+  <h3>{challengeWins}</h3>
+  <p>Challenge Wins</p>
+</div>
+
+<div class="stat-card">
+  <h3>{challengeLosses}</h3>
+  <p>Challenge Losses</p>
+</div>
+
+<div class="stat-card">
+    <h3>{buddyCount}</h3>
+    <p>Buddies</p>
   </div>
 </div>
 <h2>Badges</h2>

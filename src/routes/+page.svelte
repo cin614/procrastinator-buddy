@@ -7,6 +7,7 @@
   let showCompleteAnimation = $state(false);
   let priorityFilter = $state("All");
   let sortBy = $state("default");
+  let challenges = $state([]);
 
   function getLevel() {
     if (xp >= 1000)
@@ -111,10 +112,24 @@
     });
   }
 
+  function formatFocusTime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+
+    if (hours > 0) {
+      return `${hours}h ${minutes}m`;
+    }
+
+    return `${minutes} min`;
+  }
+
   async function loadTasks() {
     const response = await fetch("/api/tasks");
     tasks = await response.json();
     xp = calculateXp(tasks);
+
+    const challengeResponse = await fetch("/api/challenges");
+    challenges = await challengeResponse.json();
   }
 
   onMount(() => {
@@ -126,6 +141,8 @@
 
     if (task.completed) {
       showCompleteAnimation = true;
+
+      await completeChallengeForTask(task);
 
       setTimeout(() => {
         showCompleteAnimation = false;
@@ -153,6 +170,22 @@
     });
 
     loadTasks();
+  }
+
+  async function completeChallengeForTask(task) {
+    await fetch("/api/challenges", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        taskId: task._id,
+        status: "completed",
+      }),
+    });
+
+    const challengeResponse = await fetch("/api/challenges");
+    challenges = await challengeResponse.json();
   }
 
   function startEdit(task) {
@@ -192,11 +225,32 @@
 
 <div class="welcome-box">
   <h2>🌸 Welcome back!</h2>
-  <p>✨ Let’s make a little progress today.</p>
+  <p>Let’s make a little progress today.</p>
   <small>
     You have {getVisibleTasks(false).length} open tasks.
   </small>
 </div>
+
+{#if challenges.find((challenge) => challenge.status !== "completed")}
+  {@const activeChallenge = challenges.find(
+    (challenge) => challenge.status !== "completed",
+  )}
+
+  <div class="active-challenge">
+    <h3>🏆 Active Challenge</h3>
+
+    <p>{activeChallenge.taskTitle}</p>
+
+    <small>
+      Buddy: {activeChallenge.buddyName}
+    </small>
+    <br />
+
+    <small class={`challenge-status ${activeChallenge.status}`}>
+      {activeChallenge.status}
+    </small>
+  </div>
+{/if}
 
 {#if showCompleteAnimation}
   <div class="complete-animation">✨ Amazing! Task completed ✨</div>
@@ -245,7 +299,7 @@
 
 <h2>🌸 Open Tasks</h2>
 {#if getVisibleTasks(false).length === 0}
-  <div class="empty-state">✨ No open tasks. You’re doing amazing!</div>
+  <div class="empty-state">No open tasks. You’re doing amazing! ✨</div>
 {/if}
 
 {#each getVisibleTasks(false) as task}
@@ -263,6 +317,12 @@
         <small class={`priority ${task.priority.toLowerCase()}`}>
           {task.priority}
         </small>
+
+        {#if task.focusSeconds > 0}
+          <small class="focus-time">
+            ⏱ Focused: {formatFocusTime(task.focusSeconds)}
+          </small>
+        {/if}
 
         {#if task.deadline}
           <small class="deadline">
@@ -305,7 +365,7 @@
 
 {#if getVisibleTasks(true).length === 0}
   <div class="empty-state">
-    🌱 No completed tasks yet. Start with one small step!
+    No completed tasks yet. Start with one small step! 🌱
   </div>
 {/if}
 

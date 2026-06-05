@@ -12,7 +12,8 @@ export async function POST({ request }) {
         title: task.title,
         priority: task.priority,
         deadline: task.deadline,
-        completed: task.completed
+        completed: task.completed,
+        focusSeconds: task.focusSeconds
       }
     }
   );

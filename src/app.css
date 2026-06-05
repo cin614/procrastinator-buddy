@@ -529,6 +529,7 @@ button {
 .home-title {
   text-align: center;
 }
+
 .empty-state {
   background: #fffafd;
   border: 2px dashed #f3d1e8;
@@ -540,6 +541,7 @@ button {
   margin-bottom: 18px;
   box-shadow: 0 6px 18px rgba(216, 180, 254, 0.18);
 }
+
 .profile-card {
   text-align: center;
 }
@@ -570,6 +572,7 @@ button {
   color: #9b5de5;
   font-weight: 600;
 }
+
 .bottom-nav a {
   display: flex;
   flex-direction: column;
@@ -586,6 +589,7 @@ button {
   font-size: 12px;
   font-weight: 600;
 }
+
 .welcome-box {
   background: linear-gradient(135deg, #fff0f6, #f3e8ff);
   border-radius: 26px;
@@ -607,6 +611,74 @@ button {
 }
 
 .welcome-box small {
+  color: #7c3aed;
+  font-weight: 600;
+}
+
+.challenge-buttons {
+  margin-top: 12px;
+}
+
+.small-btn {
+  width: auto;
+  padding: 8px 14px;
+  font-size: 14px;
+}
+
+.challenge-status {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.challenge-status.pending {
+  background: #fff1cc;
+  color: #b7791f;
+}
+
+.challenge-status.accepted {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.challenge-status.completed {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.active-challenge {
+  background: linear-gradient(135deg, #fff5cc, #ffe7f5);
+  border-radius: 24px;
+  padding: 18px;
+  margin-bottom: 24px;
+  text-align: center;
+  box-shadow: 0 8px 22px rgba(216, 180, 254, 0.25);
+}
+
+.active-challenge h3 {
+  margin-top: 0;
+}
+
+.active-challenge p {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.challenge-status.won {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.challenge-status.lost {
+  background: #ffe1ec;
+  color: #d63384;
+}
+.focus-time {
+  display: block;
+  margin-top: 4px;
   color: #7c3aed;
   font-weight: 600;
 }

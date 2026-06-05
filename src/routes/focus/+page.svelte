@@ -63,18 +63,41 @@
   }
 
   async function saveFocusSession(durationSeconds) {
-  await fetch('/api/focus-sessions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      mode,
-      durationSeconds,
-      taskId: selectedTaskId || null
-    })
-  });
-}
+    await fetch("/api/focus-sessions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        mode,
+        durationSeconds,
+        taskId: selectedTaskId || null,
+      }),
+    });
+  }
+
+  async function addFocusTimeToTask(durationSeconds) {
+    if (!selectedTaskId) return;
+
+    const task = tasks.find((task) => task._id === selectedTaskId);
+
+    if (!task) return;
+
+    const currentFocusSeconds = task.focusSeconds || 0;
+
+    await fetch("/api/tasks/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...task,
+        focusSeconds: currentFocusSeconds + durationSeconds,
+      }),
+    });
+
+    loadTasks();
+  }
 
   function startTimer() {
     if (isRunning) return;
@@ -95,12 +118,12 @@
         interval = null;
         isRunning = false;
         await saveFocusSession(getTotalTime());
+        await addFocusTimeToTask(getTotalTime());
 
-message =
-  "Focus session completed and saved! 🎉 Decide yourself if the task is done.";
+        message =
+          "Focus session completed and saved! 🎉 Focus time was added to the task.";
       }
     }, 1000);
-    
   }
 
   function pauseTimer() {
@@ -223,4 +246,3 @@ message =
 {#if message}
   <p class="success-message">{message}</p>
 {/if}
-
